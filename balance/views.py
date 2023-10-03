@@ -12,12 +12,9 @@ def home():
 
     return render_template('inicio.html', movs=movimientos)
 
-# - Función borrar
-# - Operar con la BD
-# - Poner un botón de borrado en cada movimiento
-# - Plantilla con el resultado
 
-
-@app.route('/borrar')
-def eliminar():
-    return render_template('borrado.html', resultado=False)
+@app.route('/borrar/<int:id>')
+def eliminar(id):
+    db = DBManager(RUTA)
+    ha_ido_bien = db.borrar(id)
+    return render_template('borrado.html', resultado=ha_ido_bien)
