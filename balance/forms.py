@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import DateField, DecimalField, HiddenField, RadioField, StringField, SubmitField
 
 
-class MovimientoFrom(FlaskForm):
+class MovimientoForm(FlaskForm):
     id = HiddenField()
     fecha = DateField("Fecha")
     concepto = StringField("Concepto")
