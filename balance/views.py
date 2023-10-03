@@ -1,7 +1,8 @@
-from flask import render_template
+from .models import DBManager
+from flask import render_template, request
 
 from . import app, RUTA
-from .models import DBManager
+from .forms import MovimientoFrom
 
 
 @app.route('/')
@@ -18,3 +19,11 @@ def eliminar(id):
     db = DBManager(RUTA)
     ha_ido_bien = db.borrar(id)
     return render_template('borrado.html', resultado=ha_ido_bien)
+
+
+@app.route('/editar/<int:id>')
+def actualizar(id):
+    if request.method == 'GET':
+        formulario = MovimientoFrom()
+        return render_template('form_movimiento.html', form=formulario)
+    return f'TODO: tratar el método POST para actualizar el movimiento {id}'
