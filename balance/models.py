@@ -111,5 +111,5 @@ class DBManager:
         except:
             conexion.rollback()
 
-        self.desconectar()
+        self.desconectar(conexion)
         return resultado
