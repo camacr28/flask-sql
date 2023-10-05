@@ -10,6 +10,14 @@ class DBManager:
     def __init__(self, ruta):
         self.ruta = ruta
 
+    def conectar(self):
+        conexion = sqlite3.connect(self.ruta)
+        cursor = conexion.cursor()
+        return (conexion, cursor)
+
+    def desconectar(self, conexion):
+        conexion.close()
+
     def consultaSQL(self, consulta):
 
         # 1. Conectar a BD
@@ -51,8 +59,7 @@ class DBManager:
         DELETE FROM movimientos WHERE id=?
         """
         sql = 'DELETE FROM movimientos WHERE id=?'
-        conexion = sqlite3.connect(self.ruta)
-        cursor = conexion.cursor()
+        conexion, cursor = self.conectar()
 
         resultado = False
 
@@ -63,7 +70,7 @@ class DBManager:
         except:
             conexion.rollback()
 
-        conexion.close()
+        self.desconectar()
         return resultado
 
     def obtener_movimiento(self, id):
@@ -91,4 +98,18 @@ class DBManager:
             resultado = movimiento
 
         conexion.close()
+        return resultado
+
+    def consulta_con_parametros(self, consulta, parametros):
+        conexion, cursor = self.conectar()
+
+        resultado = False
+        try:
+            cursor.execute(consulta, parametros)
+            conexion.commit()
+            resultado = True
+        except:
+            conexion.rollback()
+
+        self.desconectar()
         return resultado

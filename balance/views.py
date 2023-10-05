@@ -22,14 +22,18 @@ def eliminar(id):
     return render_template('borrado.html', resultado=ha_ido_bien)
 
 
-@app.route('/editar/<int:id>')
+@app.route('/editar/<int:id>', methods=['GET', 'POST'])
 def actualizar(id):
     if request.method == 'GET':
         db = DBManager(RUTA)
         movimiento = db.obtener_movimiento(id)
-        # TODO: acceder aquí por un enlace en la lista de movimientos
-        # (al lado del botón eliminar)
 
         formulario = MovimientoForm(data=movimiento)
-        return render_template('form_movimiento.html', form=formulario)
-    return f'TODO: tratar el método POST para actualizar el movimiento {id}'
+        return render_template('form_movimiento.html', form=formulario, id=id)
+
+    if request.method == 'POST':
+        form = MovimientoForm(data=request.form)
+        if form.validate():
+            return "Guardar el movimiento"
+        else:
+            return "Datos no válidos. (Volver al formulario)"

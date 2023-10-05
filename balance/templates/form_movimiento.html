@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block contenido %}
-<form action="/editar">
+<form action="/editar/{{ id }}" method="post" novalidate>
     {{ form.csrf_token }}
 
     {{ form.id }}
