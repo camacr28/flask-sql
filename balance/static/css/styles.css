@@ -2,13 +2,13 @@
     --primary-color: #b8174c;
     --secondary-color: #19a187;
 
-    --neutral-100: #fff;
-    --neutral-50: #666;
+    --neutral-100: #f0f0f0;
+    --neutral-50: #888;
     --neutral-0: #000;
 
     --error-color: var(--primary-color);
 
-    --default-border: solid thin var(--secondary-color)
+    --default-border: solid thin var(--secondary-color);
 }
 
 header {
@@ -18,7 +18,6 @@ header {
     padding-left: 20px;
     line-height: 50px;
     font-size: large;
-
 }
 
 .navbar {
@@ -37,6 +36,7 @@ header {
     color: var(--neutral-100);
 }
 
+
 main {
     max-width: 600px;
     margin: auto;
@@ -45,6 +45,7 @@ main {
 
 table.paper {
     width: 100%;
+    margin: 0;
 }
 
 table.paper .titulo-tabla {
@@ -61,34 +62,40 @@ table.paper .titulo-tabla {
     text-align: right;
 }
 
-.lista_vacia {
+.lista-vacia {
     text-align: center;
     color: var(--neutral-50);
     padding: 20px;
 }
 
-.errors {
+.error {
     color: var(--error-color);
 }
 
-p.errors {
+p.error {
     font-size: small;
     margin: 0;
     line-height: 0;
 }
 
-tr.errors+tr td {
+tr.error+tr td {
     padding-bottom: 13px;
 }
 
-.mini_boton {
-    border: solid thin darkgray;
-    border-radius: 4px;
-    padding: 0 3px;
-    background-color: lightgray;
+a:link.delete,
+a:visited.delete,
+a:active.delete,
+a.delete {
+    color: red;
 }
 
-a.mini_boton:hover {
+.mini-boton {
+    /* border: solid thin darkgray; */
+    border-radius: 4px;
+    padding: 0 3px;
+    /* background-color: lightgray; */
+}
 
+a.mini-boton:hover {
     text-decoration: none;
 }

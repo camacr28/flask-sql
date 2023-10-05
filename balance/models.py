@@ -1,3 +1,4 @@
+from datetime import date
 import sqlite3
 """
 SELECT id, fecha, concepto, tipo, cantidad FROM movimientos
@@ -85,6 +86,7 @@ class DBManager:
             for nombre in nombres_columna:
                 movimiento[nombre] = datos[indice]
                 indice += 1
+            movimiento['fecha'] = date.fromisoformat(movimiento['fecha'])
 
             resultado = movimiento
 

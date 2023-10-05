@@ -33,7 +33,12 @@
         </td>
         <td class="numero">{{ m.cantidad }}</td>
         <td class="acciones">
-            <a href="/borrar/{{ m.id }}" class="mini_boton">&times;</a>
+            <a href="/editar/{{ m.id }}" class="mini_boton">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+            <a href="/borrar/{{ m.id }}" class="mini_boton">
+                <i class="fa-solid fa-eraser"></i>
+            </a>
         </td>
     </tr>
     {% if m.has_errors %}
