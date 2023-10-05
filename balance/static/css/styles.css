@@ -99,3 +99,16 @@ a.delete {
 a.mini-boton:hover {
     text-decoration: none;
 }
+
+.campo-formulario label {
+    display: block;
+    padding: 0;
+    margin-top: 30px;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.campo-formulario>input[type='radio']~label {
+    display: inline-block;
+    margin-right: 30px;
+}
