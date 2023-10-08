@@ -33,11 +33,11 @@
         </td>
         <td class="numero">{{ m.cantidad }}</td>
         <td class="acciones">
-            <a href="/editar/{{ m.id }}" class="mini_boton">
-                <i class="fa-solid fa-pen-to-square"></i>
-            </a>
-            <a href="/borrar/{{ m.id }}" class="mini_boton">
+            <a href="/borrar/{{ m.id }}" class="mini-boton delete">
                 <i class="fa-solid fa-eraser"></i>
+            </a>
+            <a href="/editar/{{ m.id }}" class="mini-boton update">
+                <i class="fa-solid fa-pen-to-square"></i>
             </a>
         </td>
     </tr>

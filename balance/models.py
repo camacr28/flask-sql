@@ -1,11 +1,15 @@
-from datetime import date
 import sqlite3
+from datetime import date
+
 """
 SELECT id, fecha, concepto, tipo, cantidad FROM movimientos
 """
 
 
 class DBManager:
+    """
+    Clase para interactuar con la base de datos SQLite
+    """
 
     def __init__(self, ruta):
         self.ruta = ruta
@@ -13,27 +17,27 @@ class DBManager:
     def conectar(self):
         conexion = sqlite3.connect(self.ruta)
         cursor = conexion.cursor()
-        return (conexion, cursor)
+        return conexion, cursor
 
     def desconectar(self, conexion):
         conexion.close()
 
     def consultaSQL(self, consulta):
 
-        # 1. Conectar a BD
+        # 1. Conectar a la base de datos
         conexion = sqlite3.connect(self.ruta)
 
         # 2. Abrir cursor
         cursor = conexion.cursor()
 
-        # 3. Ejecutar consulta
+        # 3. Ejecutar la consulta
         cursor.execute(consulta)
 
         # 4. Tratar los datos
-        # 4.1. Obtener datos
+        # 4.1 Obtener los datos
         datos = cursor.fetchall()
 
-        # 4.2. Guardarlos localmente
+        # 4.2 Los guardo localmente
         self.registros = []
         nombres_columna = []
         for columna in cursor.description:
@@ -47,11 +51,10 @@ class DBManager:
                 indice += 1
             self.registros.append(movimiento)
 
-        # 5. Cerrar conexión
+        # 5. Cerrar la conexión
         conexion.close()
 
-        # 6. Devolver resultados
-
+        # 6. Devolver los resultados
         return self.registros
 
     def borrar(self, id):
@@ -59,10 +62,10 @@ class DBManager:
         DELETE FROM movimientos WHERE id=?
         """
         sql = 'DELETE FROM movimientos WHERE id=?'
-        conexion, cursor = self.conectar()
+        conexion = sqlite3.connect(self.ruta)
+        cursor = conexion.cursor()
 
         resultado = False
-
         try:
             cursor.execute(sql, (id,))
             conexion.commit()
@@ -70,19 +73,28 @@ class DBManager:
         except:
             conexion.rollback()
 
-        self.desconectar()
+        conexion.close()
         return resultado
 
-    def obtener_movimiento(self, id):
-        consulta = 'SELECT id, fecha, concepto, cantidad FROM movimientos WHERE id=?'
+    def obtenerMovimiento(self, id):
+        """
+        SELECT id, fecha, concepto, tipo, cantidad
+          FROM movimientos
+         WHERE tipo=?
+           and fecha=?
 
-        conexion = sqlite3.connect(self.ruta)
-        cursor = conexion.cursor()
+         ('G','2023-10-02')
+         ('I','2023-10-05')
+        """
+
+        consulta = 'SELECT id, fecha, concepto, tipo, cantidad FROM movimientos WHERE id=?'
+
+        conexion, cursor = self.conectar()
+
         cursor.execute(consulta, (id,))
 
         datos = cursor.fetchone()
         resultado = None
-
         if datos:
             nombres_columna = []
             for columna in cursor.description:
@@ -94,21 +106,21 @@ class DBManager:
                 movimiento[nombre] = datos[indice]
                 indice += 1
             movimiento['fecha'] = date.fromisoformat(movimiento['fecha'])
-
             resultado = movimiento
 
-        conexion.close()
+        self.desconectar(conexion)
         return resultado
 
-    def consulta_con_parametros(self, consulta, parametros):
+    def consultaConParametros(self, consulta, params):
         conexion, cursor = self.conectar()
 
         resultado = False
         try:
-            cursor.execute(consulta, parametros)
+            cursor.execute(consulta, params)
             conexion.commit()
             resultado = True
-        except:
+        except Exception as ex:
+            print(ex)
             conexion.rollback()
 
         self.desconectar(conexion)
